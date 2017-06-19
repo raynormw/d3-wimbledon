@@ -3,17 +3,19 @@
 // Our canvas
 const width = 1000,
   height = 400,
-  margin = 20
-  marginLeft = 40
+  margin = 20,
+  marginLeft = 60
 
 // Drawing area
 let svg = d3.select('#results')
   .append('svg')
   .attr('width', width)
   .attr('height', height)
-  .style('padding', '100px 50px')
+
+  // .style('paddingLeft', marginLeft)
   .style('background', '#FAFAFA')
   .style('border', '1px solid black')
+  .style('padding', '50px')
 
 const mouseover = (d, i) => {
   debugger
@@ -37,22 +39,26 @@ let redraw = (data) => {
 
   const yScale = d3.scaleLinear()
   .domain([0, d3.max(goalScored)])
-  .range([0, 400])
+  .range([0, height])
 
   const xScale = d3.scaleLinear()
   .domain([0, goalScored.length])
-  .range([0, 1000])
+  .range([0, width])
 
   const colorScale = d3.scaleLinear()
   .domain([0, d3.max(goalScored)])
   .range(['#64edbc', '#6495ed'])
 
-  const xAxis = d3.axisBottom(xScale)
-  .ticks(goalScored.length)
+  var yAxis = d3.axisLeft(yScale);
+  var xAxis = d3.axisBottom(xScale);
 
-  svg.append("g")
-  .attr("transform", "translate(0, 1000)")
-  .call(xAxis)
+  svg.append('g')
+   .call(yAxis)
+   .attr('transform', 'translate(20, 0)')
+
+  svg.append('g')
+   .call(xAxis)
+    .attr('transform', 'translate(0, 380)')
 
   // Your data to graph here
   svg.selectAll('rect')
